@@ -1,0 +1,278 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct slist
+{
+    int data;
+    struct slist *next;
+};
+
+typedef struct slist node;
+
+node *addnode(node *l3,node *new)
+{
+    node *temp;
+    if(l3==NULL)
+    {
+        l3=new;
+    }
+    else
+    {
+        temp=l3;
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=new;
+    }
+    return l3;
+}
+
+node *concatenate(node *l1,node *l2)
+{
+    node *l3=NULL,*temp;
+    if(l1==NULL)
+    {
+        return l2;
+    }
+    else if(l2==NULL)
+    {
+        return l1;
+    }
+    else
+    {
+        temp=l1;
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=l2;
+        return l1;
+    }
+}
+
+node *listunion(node *l1,node *l2)
+{
+    node *l3=NULL,*new;
+    while(l1!=NULL && l2!=NULL)
+    {
+        if(l1->data<l2->data)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l1->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l1=l1->next;
+        }
+        else if(l2->data<l1->data)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l2->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l2=l2->next;
+        }
+        else
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l2->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l1=l1->next;
+            l2=l2->next;
+        }
+    }
+    if(l1==NULL)
+    {
+        while(l2!=NULL)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l2->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l2=l2->next;
+        }
+    }
+    if(l2==NULL)
+    {
+        while(l1!=NULL)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l1->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l1=l1->next;
+        }
+    }
+    return l3;
+}
+
+node *merge(node *l1,node *l2)
+{
+    node *l3=NULL,*new,*new1;
+    while(l1!=NULL && l2!=NULL)
+    {
+        if(l1->data<l2->data)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l1->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l1=l1->next;
+        }
+        else if(l2->data<l1->data)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l2->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l2=l2->next;
+        }
+        else
+        {
+            new=(node*)malloc(sizeof(node));
+            new1=(node*)malloc(sizeof(node));
+            new->data=l2->data;
+            new->next=NULL;
+            new1->data=l1->data;
+            new1->next=NULL;
+            l3=addnode(l3,new1);
+            l3=addnode(l3,new);
+            l1=l1->next;
+            l2=l2->next;
+        }
+    }
+    if(l1==NULL)
+    {
+        while(l2!=NULL)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l2->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l2=l2->next;
+        }
+    }
+    if(l2==NULL)
+    {
+        while(l1!=NULL)
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l1->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l1=l1->next;
+        }
+    }
+    return l3;
+}
+
+node *intersection(node *l1,node *l2)
+{
+    node *l3=NULL,*new;
+    while(l1!=NULL&&l2!=NULL)
+    {
+        if(l1->data<l2->data)
+        {
+            l1=l1->next;
+        }
+        else if(l2->data<l1->data)
+        {
+            l2=l2->next;
+        }
+        else
+        {
+            new=(node*)malloc(sizeof(node));
+            new->data=l1->data;
+            new->next=NULL;
+            l3=addnode(l3,new);
+            l1=l1->next;
+            l2=l2->next;
+        }
+    }
+    return l3;
+}
+
+node *create(node *first)
+{
+    node *prev,*new;
+    int x;
+    printf("Enter the data value(Enter -1 to stop):");
+    scanf("%d",&x);
+   
+    while(x!=-1)
+    {
+        new=(node*)malloc(sizeof(node));
+        new->data=x;
+        new->next=NULL;
+       
+        if(first==NULL)
+        {
+            first=new;
+        }
+        else
+        {
+            prev->next=new;
+        }
+        prev=new;
+        printf("Enter the data value(Enter -1 to stop):");
+        scanf("%d",&x);
+    }
+    return first;
+}
+
+node *display(node *first)
+{
+    node *temp=first;
+    if(first==NULL)
+    {
+        printf("No elements to print");
+    }
+    else
+    {
+        while(temp!=NULL)
+        {
+            printf("|%d|->",temp->data);
+            temp=temp->next;
+        }
+        printf("NULL");
+       
+    }
+}
+
+int main()
+{
+    node *l1=NULL,*l2=NULL,*l3=NULL;
+    printf("LIST 1\n");
+    l1=create(l1);
+    printf("LIST 2\n");
+    l2=create(l2);
+    printf("LIST 1\n");
+    display(l1);
+    printf("\nLIST 2\n");
+    display(l2);
+   
+    int ch;
+    printf("\n1.Concatenate\n2.Union\n3.Intesection\n4.Merge\n5.exit\n");
+    printf("Enter your choice to perform the operation of the lists:");
+    scanf("%d",&ch);
+   
+    switch(ch)
+    {
+        case 1:l3=concatenate(l1,l2);
+                display(l3);
+                break;
+        case 2:l3=listunion(l1,l2);
+                display(l3);
+                break;
+        case 3:l3=intersection(l1,l2);
+                display(l3);
+                break;
+        case 4:l3=merge(l1,l2);
+                display(l3);
+                break;
+        case 5:exit(0);
+                break;
+        default:printf("Enter correct choice");
+    }
+}
