@@ -1,0 +1,161 @@
+#include<stdio.h>
+#include<stdlib.h>
+ int main ()
+{
+    int a[10],x,flag=0,ch,i;
+    for(i=0;i<10;i++)
+    {
+        a[i]=-1;
+    }
+    for(i=0;i<10;i++)
+    {
+        while(1)
+        {
+            printf("\n 1.Insert \n 2.Search \n 3.Delete \n 4.Display \n 5.exit");
+            printf("\n enter your choice \n");
+            scanf("%d",&ch);
+            switch(ch)
+            {
+                case 1:printf("\n enter element to insert");
+                       scanf("%d",&x);
+                       insert(a,x);
+                       break;
+                case 2:printf("\n enter element to search");
+                       scanf("%d",&x);
+                       search(a,x);
+                       break;
+                case 3:printf("\n enter element to delete");
+                       scanf("%d",&x);
+                       delete(a,x);
+                       break;
+                case 4:printf("\n elements in hash table");
+                       display(a);
+                       break;
+                case 5:exit(0);
+                       break;
+                default:printf("choose correctly");
+                        break;
+            }
+        }
+    }
+}
+void insert(int a[10],int x)
+{
+    int i=hash(x);
+    int flag=0,j;
+    if(a[i]==-1)
+    {
+        a[i]=x;
+        flag=1;
+    }
+    else
+    {
+        for(j=i+1;j<10;j++)
+        {
+            if(a[j]==-1)
+            {
+                a[j]=x;
+                flag=1;
+                break;
+            }
+        }
+        for(j=0;j<i&&flag==0;j++)
+        {
+            if(a[j]==-1)
+            {
+                a[j]=x;
+                flag=1;
+                break;
+            }
+        }
+    }
+    if(flag==0)
+    {
+        printf("no slot to insert");
+    }
+}
+void search(int a[10],int x)
+{
+    int i=hash(x);
+    int flag=0,j;
+    if(a[i]==x)
+    {
+        flag=1;
+    }
+    else
+    {
+        for(j=j+1;j<10;j++)
+        {
+            if(a[i]==x)
+            {
+                flag=1;
+                break;
+            }
+        }
+        for(j=0;j<i&&flag==0;j++)
+        {
+            if(a[j]==x)
+            {
+                flag=1;
+                break;
+            }
+        }
+    }
+    if(flag==1)
+    {
+        printf("element is found");
+    }
+    else
+    {
+        printf(" elementis not found");
+    }
+}
+void delete(int a[10],int x)
+{
+    int i=hash(x);
+    int flag=0,j;
+    if(a[i]==x)
+    {
+        a[i]==-1;
+        flag=1;
+    }
+    else
+    {
+        for(j=j+1;j<10;j++)
+        {
+            a[j]==-1;
+            flag=1;
+            break;
+        }
+        for(j=0;j<i&&flag==0;j++)
+        {
+            a[j]==-1;
+            flag=1;
+            break;
+        }
+    }
+    if(flag==1)
+    {
+        printf("element is deleted");
+    }
+    else
+    {
+        printf(" elementis cannot be deleted");
+    }
+}
+int hash(int x)
+{
+    int h;
+    h=x%10;
+    return(h);
+}
+void display(int a[10])
+{
+    printf("\n elements are in hash table is:\n");
+    for(int i=0;i<10;i++)
+    {
+        printf("%d\t",a[i]);
+    }
+}
+
+
