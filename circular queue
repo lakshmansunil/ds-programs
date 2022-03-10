@@ -1,0 +1,105 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 5
+int a[MAX];
+int f=-1,r=-1;
+void cenque(int x)
+{
+    if(f==0 && r==MAX-1||(f==r+1))
+    {
+        printf("Queue overflow \n");
+    }
+    else
+    {
+        if(f==-1)
+        {
+            f=r=0;
+        }
+        else if(r==MAX-1)
+        {
+            r=0;
+        }
+        else
+        {
+            ++r;
+        }
+        a[r]=x;
+    }
+}
+int cdeque()
+{
+    int x;
+    if(f==-1)
+    {
+        printf("Queue underflow \n");
+        return -1;
+    }
+    else
+    {
+        x=a[f];
+        if(f==r)
+        {
+            f=r=-1;
+        }
+        else if(f==MAX-1)
+        {
+            f=0;
+        }
+        else
+        {
+            ++f;
+        }
+        return x;
+    }
+}
+void display()
+{
+    int i;
+    if(f==-1)
+    {
+        printf("Queue is empty \n");
+    }
+    else
+    {
+        for(i=f;i<=r;i++)
+            {
+                printf("%d\t",a[i]);
+            }
+        printf("%d",a[f]);    
+    }
+}
+int main()
+{
+        int x,ch;
+        while(1)
+        {
+         printf("\n 1.insert\n 2.delete \n 3.display \n 4.exit\n");
+         printf("enter your choice");
+         scanf("%d",&ch);
+         switch(ch)
+         {
+                 case 1:printf("enter element to insert\n");
+                        scanf("%d",&x);
+                        cenque(x);
+                        break;
+                 case 2:x=cdeque();
+                        if(x==-1)
+                        {
+                                printf("queue underflow\n");
+                        }
+                        else
+                        {
+                                printf("deleted element is:%d",x);
+                        }
+                        break;
+                 case 3:printf("queue elements are:\n");
+                        display();
+                        break;
+                 case 4:exit(0);
+                        break;
+                 default: printf("check choice\n");
+            }
+        }
+}
+
+
