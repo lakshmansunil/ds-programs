@@ -1,0 +1,172 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct BST
+{
+            int data;
+            struct BST *left,*right;
+};
+typedef struct BST node;
+node *insert(node *p,int x)
+{
+        node *new;
+        if(p==NULL)
+        {
+                new=(node *)malloc(sizeof(node));
+                new->data=x;
+                new->left=new->right=NULL;
+                p=new;
+        }
+        else if(x<=p->data)
+        {
+                p->left=insert(p->left,x);
+        }
+        else if(x>p->data)
+        {
+                p->right=insert(p->right,x);
+        }
+        return p;
+}
+void inorder(node *p)
+{
+        if(p!=NULL)
+        {
+                inorder(p->left);
+                printf("%d \t",p->data);
+                inorder(p->right);
+        }
+}
+void preorder(node *p)
+{
+        if(p!=NULL)
+        {
+                printf("%d \t",p->data);
+                preorder(p->left);
+                preorder(p->right);
+        }
+}
+void postorder(node *p)
+{
+        if(p!=NULL)
+        {
+                postorder(p->left);
+                postorder(p->right);
+                printf("%d \t",p->data);
+        }
+}
+node *findmin(node *p)
+{
+        if(p!=NULL)
+        {
+                while(p->left!=NULL)
+                {
+                        p=p->left;
+                }
+                return p;
+        }
+}
+node *findmax(node *p)
+{
+        if(p!=NULL)
+        {
+                while(p->right!=NULL)
+                {
+                        p=p->right;
+                }
+                return p;
+        }
+}
+node * search(node *p,int x)
+{
+        if(p==NULL)
+                return p;
+        else if(x<p->data)
+                return search(p->left,x);
+        else if(x>p->data)
+                return search(p->right,x);
+        else
+                return p;
+}
+node * delete(node *p,int x)
+{
+    node *temp;
+        if(p==NULL)
+                return p;
+        else if(x<p->data)
+                p->left=delete(p->left,x);
+        else if(p->left!=NULL&&p->right!=NULL)
+        {
+                x=p->data=findmin(p->right)->data;
+                p->right=delete(p->right,x);
+        }
+        else
+        {
+                temp=p;
+                if(p->right==NULL)
+                        p=p->left;
+                else if(p->left==NULL)
+                        p=p->right;
+                free(temp);
+        }
+        return p;
+}
+int main()
+{
+        node *root=NULL,*temp;
+        int x,ch;
+        while(1)
+        {
+                printf("\n 1.insert \n 2.Inorder \n 3.Preorder \n 4.Postorder \n 5.Findmin \n 6.Findmax \n 7.Search \n 8.Delete \n 9.Exit \n");
+                printf("Enter your choice");
+                scanf("%d",&ch);
+                switch(ch)
+                {
+                        case 1:printf("enter the element");                            
+                               scanf("%d",&x);
+                               root=insert(root,x);
+                               break;
+                        case 2:printf("The Inorder Traversal\n");
+                               inorder(root);
+                               break;
+                        case 3:printf("The Preorder Traversal\n");
+                               preorder(root);
+                               break;
+                        case 4:printf("The Postorder Traversal\n");
+                               postorder(root);
+
+                               break;
+                        case 5:temp=findmin(root);
+
+                               if(temp==NULL)
+                               {
+                                       printf("No tree is created");
+                               }
+                               printf("Minimum value=%d",temp->data);
+                               break;
+                        case 6:temp=findmax(root);
+                               if(temp==NULL)
+                               {
+                                       printf("No tree is created");
+
+                               }
+                               printf("Maximum value=%d",temp->data);
+                               break;
+                        case 7:printf("enter element to search");
+                               scanf("%d",&x);
+                               temp=search(root,x);
+                               if(temp==NULL)
+                               {
+                                       printf("The element %d is not found",x);
+                               }
+                               printf("The element %d is found",x);
+                               break;
+                        case 8:printf("enter element to delete");
+                               scanf("%d",&x);
+                               root=delete(root,x);
+                               break;
+                        case 9:exit(0);
+                               break;
+                        default:printf("choice correctly");
+                }
+        }
+}
+
